@@ -135,6 +135,9 @@
             <h2>المستخدمون المسجلون</h2>
             <ul id="user-list"></ul>
         </div>
+
+        <!-- زر تسجيل الخروج -->
+        <button onclick="logout()">تسجيل الخروج</button>
     </div>
 
     <div class="tasbeeh" id="tasbeehSection" style="display:none;">
@@ -237,6 +240,15 @@
             let count = parseInt(countElement.textContent);
             count++;
             countElement.textContent = count;
+        }
+
+        function logout() {
+            localStorage.removeItem('username');
+            localStorage.removeItem('userVote');
+            localStorage.removeItem('votes');
+            document.getElementById('animeSection').style.display = 'none';
+            document.getElementById('registrationForm').style.display = 'block';
+            alert('تم تسجيل الخروج بنجاح.');
         }
 
         if (!registeredUser) {
