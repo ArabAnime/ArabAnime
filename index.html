@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرب أنمي</title>
+
+    <!-- إضافة رمز Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3314957630926799"
+     crossorigin="anonymous"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +16,6 @@
             color: #333;
             margin: 0;
             padding: 20px;
-            text-align: center;
         }
         h1 {
             color: #ff6347;
@@ -127,7 +131,14 @@
 
         <div class="ad-space">
             <p>إعلان هنا</p>
-            <a href="https://www.cpmrevenuegate.com/ae1205266?key=30e8bd5d04dad77b7af02c3bebb3ba44" target="_blank">اضغط هنا لرؤية الإعلان</a>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3314957630926799"
+                 data-ad-slot="1234567890"  <!-- استبدل برقم الفتحة الخاص بك -->
+                 data-ad-format="auto"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
         <div class="results" id="results">
@@ -165,7 +176,6 @@
         const userVote = localStorage.getItem('userVote');
         const registeredUser = localStorage.getItem('username');
 
-        // جلب الأسماء المسجلة من localStorage
         function getRegisteredUsers() {
             const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
             return users;
@@ -185,7 +195,6 @@
         function register() {
             const username = document.getElementById('username').value;
             if (username) {
-                // إضافة اسم المستخدم إلى localStorage
                 const users = getRegisteredUsers();
                 if (!users.includes(username)) {
                     users.push(username);
@@ -194,9 +203,9 @@
                 localStorage.setItem('username', username);
                 document.getElementById('registrationForm').style.display = 'none';
                 document.getElementById('animeSection').style.display = 'block';
-                document.getElementById('tasbeehSection').style.display = 'block'; // Show tasbeeh section
+                document.getElementById('tasbeehSection').style.display = 'block'; 
                 displayResults();
-                displayRegisteredUsers(); // عرض أسماء المستخدمين
+                displayRegisteredUsers(); 
             } else {
                 alert('يرجى إدخال اسم المستخدم.');
             }
@@ -233,14 +242,13 @@
             countElement.textContent = count;
         }
 
-        // عرض نموذج التسجيل إذا لم يكن هناك مستخدم مسجل
         if (!registeredUser) {
             document.getElementById('registrationForm').style.display = 'block';
         } else {
             document.getElementById('animeSection').style.display = 'block';
-            document.getElementById('tasbeehSection').style.display = 'block'; // Show tasbeeh section
+            document.getElementById('tasbeehSection').style.display = 'block'; 
             displayResults();
-            displayRegisteredUsers(); // عرض أسماء المستخدمين
+            displayRegisteredUsers(); 
         }
     </script>
 </body>
