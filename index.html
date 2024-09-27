@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - Untitled</title>
-  
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -144,6 +134,11 @@
             <h2>نتائج التصويت</h2>
             <ul id="results-list"></ul>
         </div>
+
+        <div class="user-list">
+            <h2>المستخدمون المسجلون</h2>
+            <ul id="user-list"></ul>
+        </div>
     </div>
 
     <div class="tasbeeh" id="tasbeehSection" style="display:none;">
@@ -170,14 +165,38 @@
         const userVote = localStorage.getItem('userVote');
         const registeredUser = localStorage.getItem('username');
 
+        // جلب الأسماء المسجلة من localStorage
+        function getRegisteredUsers() {
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            return users;
+        }
+
+        function displayRegisteredUsers() {
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+            const users = getRegisteredUsers();
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user;
+                userList.appendChild(li);
+            });
+        }
+
         function register() {
             const username = document.getElementById('username').value;
             if (username) {
+                // إضافة اسم المستخدم إلى localStorage
+                const users = getRegisteredUsers();
+                if (!users.includes(username)) {
+                    users.push(username);
+                    localStorage.setItem('registeredUsers', JSON.stringify(users));
+                }
                 localStorage.setItem('username', username);
                 document.getElementById('registrationForm').style.display = 'none';
                 document.getElementById('animeSection').style.display = 'block';
                 document.getElementById('tasbeehSection').style.display = 'block'; // Show tasbeeh section
                 displayResults();
+                displayRegisteredUsers(); // عرض أسماء المستخدمين
             } else {
                 alert('يرجى إدخال اسم المستخدم.');
             }
@@ -190,8 +209,8 @@
             }
 
             votes[anime]++;
-            localStorage.setItem('userVote', anime);
             localStorage.setItem('votes', JSON.stringify(votes));
+            localStorage.setItem('userVote', anime);
 
             displayResults();
         }
@@ -221,11 +240,8 @@
             document.getElementById('animeSection').style.display = 'block';
             document.getElementById('tasbeehSection').style.display = 'block'; // Show tasbeeh section
             displayResults();
+            displayRegisteredUsers(); // عرض أسماء المستخدمين
         }
     </script>
-</body>
-</html>
-<!-- partial -->
-  
 </body>
 </html>
