@@ -12,8 +12,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #282c34; /* تغيير لون الخلفية */
-            color: #ffffff; /* تغيير لون النص */
+            background-color: #282c34;
+            color: #ffffff;
             margin: 0;
             padding: 20px;
         }
@@ -31,7 +31,7 @@
             justify-content: center;
         }
         .anime-item {
-            background-color: #444; /* لون الخلفية لعناصر الأنمي */
+            background-color: #444;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 15px;
@@ -149,6 +149,9 @@
         </a>
     </div>
 
+    <!-- إضافة عنصر الصوت -->
+    <audio id="thankYouSound" src="path/to/your/sound.mp3"></audio>
+
     <script>
         const votes = {
             'ون بيس': 0,
@@ -211,6 +214,9 @@
             votes[anime]++;
             localStorage.setItem('votes', JSON.stringify(votes));
             localStorage.setItem('userVote', anime);
+
+            // تشغيل الصوت
+            document.getElementById('thankYouSound').play();
 
             displayResults();
         }
