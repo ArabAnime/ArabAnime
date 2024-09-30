@@ -49,18 +49,16 @@
             font-size: 1.2em;
             text-align: center;
             padding: 10px;
-            border: 2px solid #fff; /* حدود بيضاء */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* ظل */
+            border: 2px solid white; /* حدود بيضاء */
         }
-        .slice:nth-child(1) { background: linear-gradient(135deg, #f39c12, #e67e22); transform: rotate(0deg); }
-        .slice:nth-child(2) { background: linear-gradient(135deg, #3498db, #2980b9); transform: rotate(40deg); }
-        .slice:nth-child(3) { background: linear-gradient(135deg, #2ecc71, #27ae60); transform: rotate(80deg); }
-        .slice:nth-child(4) { background: linear-gradient(135deg, #f1c40f, #f39c12); transform: rotate(120deg); }
-        .slice:nth-child(5) { background: linear-gradient(135deg, #9b59b6, #8e44ad); transform: rotate(160deg); }
-        .slice:nth-child(6) { background: linear-gradient(135deg, #34495e, #2c3e50); transform: rotate(200deg); }
-        .slice:nth-child(7) { background: linear-gradient(135deg, #e74c3c, #c0392b); transform: rotate(240deg); }
-        .slice:nth-child(8) { background: linear-gradient(135deg, #95a5a6, #7f8c8d); transform: rotate(280deg); }
-        .slice:nth-child(9) { background: linear-gradient(135deg, #f39c12, #d35400); transform: rotate(320deg); }
+        .slice:nth-child(1) { background: #FF5733; transform: rotate(0deg); }
+        .slice:nth-child(2) { background: #33FF57; transform: rotate(45deg); }
+        .slice:nth-child(3) { background: #3357FF; transform: rotate(90deg); }
+        .slice:nth-child(4) { background: #FF33A8; transform: rotate(135deg); }
+        .slice:nth-child(5) { background: #FFDA33; transform: rotate(180deg); }
+        .slice:nth-child(6) { background: #33FFD4; transform: rotate(225deg); }
+        .slice:nth-child(7) { background: #A833FF; transform: rotate(270deg); }
+        .slice:nth-child(8) { background: #FF3333; transform: rotate(315deg); }
 
         #spin {
             margin-top: 20px;
@@ -113,14 +111,13 @@
         <div id="arrow"></div>
         <div id="wheel">
             <div class="slice">مبروك حصلت على 5 ريال</div>
-            <div class="slice">مبروك حصلت على 500 بيسة</div>
-            <div class="slice">مبروك حصلت على 800 بيسة</div>
-            <div class="slice">مبروك حصلت على 400 بيسة</div>
+            <div class="slice">مبروك حصلت على 500 بيسه</div>
+            <div class="slice">مبروك حصلت على 800 بيسه</div>
+            <div class="slice">مبروك حصلت على 400 بيسه</div>
             <div class="slice">مبروك حصلت على توصيل مجاني</div>
-            <div class="slice">مبروك حصلت على تخفيض 20%</div>
-            <div class="slice">مبروك حصلت على تخفيض 10%</div>
-            <div class="slice">مبروك حصلت على تخفيض 40%</div>
-            <div class="slice">فرصة سعيدة المره القادمة</div>
+            <div class="slice">مبروك حصلت على تخفيض 20‎%</div>
+            <div class="slice">مبروك حصلت على تخفيض 10‎%</div>
+            <div class="slice">مبروك حصلت على تخفيض 40‎%</div>
         </div>
     </div>
     
@@ -133,19 +130,19 @@
     </footer>
 
     <script>
-        let spun = false;
+        const spunKey = 'hasSpun'; // مفتاح التخزين المحلي
+        const spun = localStorage.getItem(spunKey); // الحصول على قيمة التخزين المحلي
+
+        if (spun) {
+            document.getElementById('spin').disabled = true; // تعطيل الزر إذا تم التصويت سابقاً
+            document.getElementById('spin').innerText = 'لقد قمت بالتصويت بالفعل'; // تغيير النص
+        }
 
         document.getElementById('spin').addEventListener('click', function() {
-            if (spun) {
-                alert('لا يمكنك تدوير العجلة مرة أخرى.');
-                return;
-            }
-            spun = true;
-
-            const wheel = document.getElementById('wheel');
             const waitingMessage = document.getElementById('waitingMessage');
             waitingMessage.style.display = 'block'; // عرض الرسالة
 
+            const wheel = document.getElementById('wheel');
             const randomDegree = Math.floor(Math.random() * 360) + 3600; // تدور 10 دوارات
             wheel.style.transform = `rotate(${randomDegree}deg)`;
 
@@ -154,18 +151,22 @@
                 let prize;
 
                 // تحديد الجوائز بناءً على الاحتمالات
-                if (degree >= 0 && degree < 40) prize = 'مبروك حصلت على 5 ريال'; // 20%
-                else if (degree >= 40 && degree < 80) prize = 'مبروك حصلت على 500 بيسة'; // 20%
-                else if (degree >= 80 && degree < 120) prize = 'مبروك حصلت على 800 بيسة'; // 20%
-                else if (degree >= 120 && degree < 160) prize = 'مبروك حصلت على 400 بيسة'; // 20%
-                else if (degree >= 160 && degree < 200) prize = 'مبروك حصلت على توصيل مجاني'; // 20%
-                else if (degree >= 200 && degree < 240) prize = 'مبروك حصلت على تخفيض 20%'; // 10%
-                else if (degree >= 240 && degree < 280) prize = 'مبروك حصلت على تخفيض 10%'; // 10%
-                else if (degree >= 280 && degree < 320) prize = 'مبروك حصلت على تخفيض 40%'; // 10%
-                else prize = 'فرصة سعيدة المره القادمة'; // 10%
+                if (degree >= 0 && degree < 45) prize = 'مبروك حصلت على 5 ريال';
+                else if (degree >= 45 && degree < 90) prize = 'مبروك حصلت على 500 بيسه';
+                else if (degree >= 90 && degree < 135) prize = 'مبروك حصلت على 800 بيسه';
+                else if (degree >= 135 && degree < 180) prize = 'مبروك حصلت على 400 بيسه';
+                else if (degree >= 180 && degree < 225) prize = 'مبروك حصلت على توصيل مجاني';
+                else if (degree >= 225 && degree < 270) prize = 'مبروك حصلت على تخفيض 20‎%';
+                else if (degree >= 270 && degree < 315) prize = 'مبروك حصلت على تخفيض 10‎%';
+                else prize = 'مبروك حصلت على تخفيض 40‎%';
 
                 waitingMessage.style.display = 'none'; // إخفاء الرسالة
                 document.getElementById('result').innerText = prize;
+
+                // تسجيل أن المستخدم قد قام بالتصويت
+                localStorage.setItem(spunKey, 'true');
+                document.getElementById('spin').disabled = true; // تعطيل الزر
+                document.getElementById('spin').innerText = 'لقد قمت بالتصويت بالفعل'; // تغيير النص
             }, 10000); // وقت التوقف بعد 10 ثواني
         });
     </script>
