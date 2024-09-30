@@ -3,262 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرب أنمي</title>
-
-    <!-- إضافة رمز Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3314957630926799"
-     crossorigin="anonymous"></script>
-
+    <title>ملوك العود</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #282c34;
-            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
             margin: 0;
-            padding: 20px;
-        }
-        h1, h2 {
-            color: #ff6347;
-        }
-        h2 {
-            margin: 20px 0;
-        }
-        .anime-list {
-            list-style: none;
             padding: 0;
+        }
+        header {
+            background-color: #d4af37; /* اللون الذهبي */
+            padding: 20px;
+            color: white;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        #wheel-container {
+            position: relative;
+            display: inline-block;
+        }
+        #wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            border: 8px solid #d4af37; /* اللون الذهبي */
+            transition: transform 10s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+        .slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             justify-content: center;
-        }
-        .anime-item {
-            background-color: #444;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px;
-            width: 200px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s;
-        }
-        button {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
             padding: 10px;
-            background-color: #ff6347;
+            border: 2px solid white; /* حدود بيضاء */
+        }
+        .slice:nth-child(1) { background: #FF5733; transform: rotate(0deg); }
+        .slice:nth-child(2) { background: #33FF57; transform: rotate(45deg); }
+        .slice:nth-child(3) { background: #3357FF; transform: rotate(90deg); }
+        .slice:nth-child(4) { background: #FF33A8; transform: rotate(135deg); }
+        .slice:nth-child(5) { background: #FFDA33; transform: rotate(180deg); }
+        .slice:nth-child(6) { background: #33FFD4; transform: rotate(225deg); }
+        .slice:nth-child(7) { background: #A833FF; transform: rotate(270deg); }
+        .slice:nth-child(8) { background: #FF3333; transform: rotate(315deg); }
+
+        #spin {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #d4af37; /* اللون الذهبي */
             color: white;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s;
-            width: 100%;
         }
-        button:hover {
-            background-color: #e5533d;
-        }
-        .results, .ad-space, .registration-form, .tasbeeh {
+        #waitingMessage {
             margin-top: 20px;
-            display: none;
-            background-color: #444;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 1.3em;
+            color: #e74c3c; /* لون الرسالة */
+            display: none; /* مخفية بشكل افتراضي */
         }
-        input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 80%;
-            margin-bottom: 10px;
-        }
-        .youtube-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #result {
             margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
         }
-        .youtube-link a {
-            color: #ff6347;
-            text-decoration: none;
-            font-size: 20px;
+        #arrow {
+            position: absolute;
+            top: -25px; /* موضع السهم فوق العجلة */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #d4af37; /* لون السهم */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* إضافة ظل للسهم */
         }
-        .youtube-link a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            .anime-item {
-                width: 150px;
-            }
-            input[type="text"] {
-                width: 90%;
-            }
+        footer {
+            margin-top: 40px;
+            font-size: 1em;
+            padding: 20px;
+            background-color: #e7e7e7;
         }
     </style>
 </head>
 <body>
-    <h1>عرب أنمي</h1>
-    <h2>يرجى التسجيل قبل التصويت</h2>
 
-    <div class="registration-form" id="registrationForm">
-        <h3>نموذج التسجيل</h3>
-        <input type="text" id="username" placeholder="اسم المستخدم" required>
-        <button onclick="register()">تسجيل</button>
-    </div>
+    <header>
+        <h1>ملوك العود</h1>
+    </header>
 
-    <div class="anime-section" id="animeSection" style="display:none;">
-        <h2>صوت لأفضل أنمي</h2>
-        <ul class="anime-list">
-            <li class="anime-item">ون بيس <button onclick="vote('ون بيس')">صوت</button></li>
-            <li class="anime-item">دراغون بول <button onclick="vote('دراغون بول')">صوت</button></li>
-            <li class="anime-item">ناروتو <button onclick="vote('ناروتو')">صوت</button></li>
-            <li class="anime-item">بليتش <button onclick="vote('بليتش')">صوت</button></li>
-            <li class="anime-item">بوروتو <button onclick="vote('بوروتو')">صوت</button></li>
-            <li class="anime-item">قاتل الشياطين <button onclick="vote('قاتل الشياطين')">صوت</button></li>
-        </ul>
-
-        <!-- عنصر الإعلان -->
-        <div class="ad-space">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3314957630926799"
-                 data-ad-slot="1234567890"  <!-- استبدل برقم الفتحة الخاص بك -->
-                 data-ad-format="auto"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+    <div id="wheel-container">
+        <div id="arrow"></div>
+        <div id="wheel">
+            <div class="slice">50 ريال</div>
+            <div class="slice">هدية منزلية</div>
+            <div class="slice">2 كيلو عسل</div>
+            <div class="slice">كارت شحن 50</div>
+            <div class="slice">أدوات مطبخ</div>
+            <div class="slice">حاول مرة أخرى</div>
+            <div class="slice">هدية مفاجئة</div>
+            <div class="slice">فرصة سعيدة</div>
         </div>
-
-        <div class="results" id="results">
-            <h2>نتائج التصويت</h2>
-            <ul id="results-list"></ul>
-        </div>
-
-        <div class="user-list">
-            <h2>المستخدمون المسجلون</h2>
-            <ul id="user-list"></ul>
-        </div>
-
-        <!-- زر تسجيل الخروج -->
-        <button onclick="logout()">تسجيل الخروج</button>
     </div>
+    
+    <button id="spin">دور العجلة</button>
+    <div id="waitingMessage">استغفر الله</div>
+    <div id="result"></div>
 
-    <div class="tasbeeh" id="tasbeehSection" style="display:none;">
-        <h2>تسبيح</h2>
-        <button onclick="tasbeeh()">استغفر الله</button>
-        <p>عدد التسبيحات: <span id="count">0</span></p>
-    </div>
-
-    <div class="youtube-link">
-        <a href="https://youtube.com/@aranime007?si=KG5vsdJ8O4VyCTxJ" target="_blank">
-            اشترك في قناتي على اليوتيوب
-        </a>
-    </div>
-
-    <!-- إضافة عنصر الصوت -->
-    <audio id="thankYouSound" src="path/to/your/sound.mp3"></audio>
+    <footer>
+        <p>مسابقة ملوك العود قد تكون أنت الرابح الأكبر.</p>
+    </footer>
 
     <script>
-        const votes = {
-            'ون بيس': 0,
-            'دراغون بول': 0,
-            'ناروتو': 0,
-            'بليتش': 0,
-            'بوروتو': 0,
-            'قاتل الشياطين': 0
-        };
+        let spun = false;
 
-        const storedVotes = JSON.parse(localStorage.getItem('votes'));
-        if (storedVotes) {
-            Object.assign(votes, storedVotes);
-        }
-
-        const userVote = localStorage.getItem('userVote');
-        const registeredUser = localStorage.getItem('username');
-
-        function getRegisteredUsers() {
-            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-            return users;
-        }
-
-        function displayRegisteredUsers() {
-            const userList = document.getElementById('user-list');
-            userList.innerHTML = '';
-            const users = getRegisteredUsers();
-            users.forEach(user => {
-                const li = document.createElement('li');
-                li.textContent = user;
-                userList.appendChild(li);
-            });
-        }
-
-        function register() {
-            const username = document.getElementById('username').value;
-            if (username) {
-                const users = getRegisteredUsers();
-                if (!users.includes(username)) {
-                    users.push(username);
-                    localStorage.setItem('registeredUsers', JSON.stringify(users));
-                }
-                localStorage.setItem('username', username);
-                document.getElementById('registrationForm').style.display = 'none';
-                document.getElementById('animeSection').style.display = 'block';
-                document.getElementById('tasbeehSection').style.display = 'block'; 
-                displayResults();
-                displayRegisteredUsers(); 
-            } else {
-                alert('يرجى إدخال اسم المستخدم.');
-            }
-        }
-
-        function vote(anime) {
-            if (userVote) {
-                alert('لقد صوتت بالفعل!');
+        document.getElementById('spin').addEventListener('click', function() {
+            if (spun) {
+                alert('لا يمكنك تدوير العجلة مرة أخرى.');
                 return;
             }
+            spun = true;
 
-            votes[anime]++;
-            localStorage.setItem('votes', JSON.stringify(votes));
-            localStorage.setItem('userVote', anime);
+            const wheel = document.getElementById('wheel');
+            const waitingMessage = document.getElementById('waitingMessage');
+            waitingMessage.style.display = 'block'; // عرض الرسالة
 
-            // تشغيل الصوت
-            document.getElementById('thankYouSound').play();
+            const randomDegree = Math.floor(Math.random() * 360) + 3600; // تدور 10 دوارات
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
 
-            displayResults();
-        }
+            setTimeout(() => {
+                const degree = randomDegree % 360;
+                let prize;
 
-        function displayResults() {
-            const resultsList = document.getElementById('results-list');
-            resultsList.innerHTML = '';
-            for (const anime in votes) {
-                const li = document.createElement('li');
-                li.textContent = `${anime}: ${votes[anime]} صوت`;
-                resultsList.appendChild(li);
-            }
-            document.getElementById('results').style.display = 'block';
-        }
+                // تحديد الجوائز بناءً على الاحتمالات
+                if (degree >= 0 && degree < 45) prize = '50 ريال';
+                else if (degree >= 45 && degree < 90) prize = 'هدية منزلية';
+                else if (degree >= 90 && degree < 135) prize = '2 كيلو عسل';
+                else if (degree >= 135 && degree < 180) prize = 'كارت شحن 50';
+                else if (degree >= 180 && degree < 225) prize = 'أدوات مطبخ';
+                else if (degree >= 225 && degree < 270) prize = 'حاول مرة أخرى';
+                else if (degree >= 270 && degree < 315) prize = 'هدية مفاجئة';
+                else prize = 'فرصة سعيدة';
 
-        function tasbeeh() {
-            const countElement = document.getElementById('count');
-            let count = parseInt(countElement.textContent);
-            count++;
-            countElement.textContent = count;
-        }
-
-        function logout() {
-            localStorage.removeItem('username');
-            localStorage.removeItem('userVote');
-            localStorage.removeItem('votes');
-            document.getElementById('animeSection').style.display = 'none';
-            document.getElementById('registrationForm').style.display = 'block';
-            alert('تم تسجيل الخروج بنجاح.');
-        }
-
-        if (!registeredUser) {
-            document.getElementById('registrationForm').style.display = 'block';
-        } else {
-            document.getElementById('animeSection').style.display = 'block';
-            document.getElementById('tasbeehSection').style.display = 'block'; 
-            displayResults();
-            displayRegisteredUsers(); 
-        }
+                waitingMessage.style.display = 'none'; // إخفاء الرسالة
+                document.getElementById('result').innerText = prize;
+            }, 10000); // وقت التوقف بعد 10 ثواني
+        });
     </script>
+
 </body>
 </html>
