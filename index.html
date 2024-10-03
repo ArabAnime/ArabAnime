@@ -3,173 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ملوك العود</title>
+    <title>عجلة الحظ - مسابقة ملوك العود</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2c3e50;
             font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #d4af37; /* اللون الذهبي */
-            padding: 20px;
             color: white;
+            text-align: center;
         }
-        h1 {
+        .header {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #34495e;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .header h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-size: 24px;
         }
-        #wheel-container {
-            position: relative;
-            display: inline-block;
+        .header p {
+            margin: 5px 0;
+            font-size: 16px;
         }
-        #wheel {
-            width: 300px;
-            height: 300px;
+        .wheel {
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
+            border: 10px solid #ecf0f1;
             position: relative;
-            margin: 20px auto;
             overflow: hidden;
-            border: 8px solid #d4af37; /* اللون الذهبي */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             transition: transform 10s cubic-bezier(0.33, 1, 0.68, 1);
         }
         .slice {
             position: absolute;
             width: 50%;
             height: 50%;
-            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            transform-origin: 100% 100%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            color: white;
+            align-items: center;
             font-weight: bold;
-            font-size: 1.2em;
-            text-align: center;
-            padding: 10px;
-            border: 2px solid white; /* حدود بيضاء */
+            font-size: 16px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
-        .slice:nth-child(1) { background: #FF5733; transform: rotate(0deg); }
-        .slice:nth-child(2) { background: #33FF57; transform: rotate(45deg); }
-        .slice:nth-child(3) { background: #3357FF; transform: rotate(90deg); }
-        .slice:nth-child(4) { background: #FF33A8; transform: rotate(135deg); }
-        .slice:nth-child(5) { background: #FFDA33; transform: rotate(180deg); }
-        .slice:nth-child(6) { background: #33FFD4; transform: rotate(225deg); }
-        .slice:nth-child(7) { background: #A833FF; transform: rotate(270deg); }
-        .slice:nth-child(8) { background: #FF3333; transform: rotate(315deg); }
+        .slice:nth-child(1) { transform: rotate(0deg); background: #1abc9c; }
+        .slice:nth-child(2) { transform: rotate(36deg); background: #3498db; }
+        .slice:nth-child(3) { transform: rotate(72deg); background: #9b59b6; }
+        .slice:nth-child(4) { transform: rotate(108deg); background: #f39c12; }
+        .slice:nth-child(5) { transform: rotate(144deg); background: #e67e22; }
+        .slice:nth-child(6) { transform: rotate(180deg); background: #c0392b; }
+        .slice:nth-child(7) { transform: rotate(216deg); background: #2980b9; }
+        .slice:nth-child(8) { transform: rotate(252deg); background: #8e44ad; }
+        .slice:nth-child(9) { transform: rotate(288deg); background: #f1c40f; }
+        .slice:nth-child(10) { transform: rotate(324deg); background: #e74c3c; }
 
-        #spin {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            background-color: #d4af37; /* اللون الذهبي */
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        #waitingMessage {
-            margin-top: 20px;
-            font-size: 1.3em;
-            color: #e74c3c; /* لون الرسالة */
-            display: none; /* مخفية بشكل افتراضي */
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        #arrow {
+        .arrow {
             position: absolute;
-            top: -25px; /* موضع السهم فوق العجلة */
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 25px solid #d4af37; /* لون السهم */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* إضافة ظل للسهم */
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #ecf0f1;
         }
-        footer {
-            margin-top: 40px;
-            font-size: 1em;
-            padding: 20px;
-            background-color: #e7e7e7;
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .button:hover {
+            background-color: #219150;
+        }
+        .winners {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ecf0f1;
+            display: none; /* إخفاء النتيجة في البداية */
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>ملوك العود</h1>
-    </header>
+<div class="header">
+    <h1>مسابقة ملوك العود</h1>
+    <p>نتمنالك التوفيق! لا تنسى تصوير الشاشة بعد تدوير العجلة وذلك لحفظ جائزتك.</p>
+    <p>لديك دقيقة واحدة قم بإرسال النتيجة إلى ملوك العود.</p>
+</div>
 
-    <div id="wheel-container">
-        <div id="arrow"></div>
-        <div id="wheel">
-            <div class="slice">مبروك حصلت على 5 ريال</div>
-            <div class="slice">مبروك حصلت على 500 بيسه</div>
-            <div class="slice">مبروك حصلت على 800 بيسه</div>
-            <div class="slice">مبروك حصلت على 400 بيسه</div>
-            <div class="slice">مبروك حصلت على توصيل مجاني</div>
-            <div class="slice">مبروك حصلت على تخفيض 20‎%</div>
-            <div class="slice">مبروك حصلت على تخفيض 10‎%</div>
-            <div class="slice">مبروك حصلت على تخفيض 40‎%</div>
-        </div>
-    </div>
-    
-    <button id="spin">دور العجلة</button>
-    <div id="waitingMessage">استغفر الله</div>
-    <div id="result"></div>
+<div class="wheel" id="wheel">
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">0 ر.ع</div>
+    <div class="slice">توصيل مجاني!</div>
+    <div class="arrow"></div>
+</div>
 
-    <footer>
-        <p>مسابقة ملوك العود قد تكون أنت الرابح الأكبر.</p>
-    </footer>
+<button class="button" id="spinButton">أدور العجلة</button>
 
-    <script>
-        const spunKey = 'hasSpun'; // مفتاح التخزين المحلي
-        const spun = localStorage.getItem(spunKey); // الحصول على قيمة التخزين المحلي
+<audio id="spinSound" src="https://www.soundjay.com/button/sounds/button-4.mp3"></audio>
 
-        if (spun) {
-            document.getElementById('spin').disabled = true; // تعطيل الزر إذا تم التصويت سابقاً
-            document.getElementById('spin').innerText = 'لقد قمت بالتصويت بالفعل'; // تغيير النص
+<div class="winners" id="winnersList">
+    <h3>الفائزون:</h3>
+    <ul id="winners"></ul>
+</div>
+
+<div id="result"></div>
+
+<script>
+    const wheel = document.getElementById('wheel');
+    const spinButton = document.getElementById('spinButton');
+    const spinSound = document.getElementById('spinSound');
+    const winnersList = document.getElementById('winners');
+    const result = document.getElementById('result');
+    let hasSpun = false;
+
+    spinButton.addEventListener('click', () => {
+        if (hasSpun) {
+            alert("لقد قمت بالدوران مرة واحدة فقط!");
+            return;
         }
 
-        document.getElementById('spin').addEventListener('click', function() {
-            const waitingMessage = document.getElementById('waitingMessage');
-            waitingMessage.style.display = 'block'; // عرض الرسالة
+        const randomDegrees = Math.floor(Math.random() * 360 + 360 * 5); // دوران 5 دورات + زاوية عشوائية
+        spinSound.play(); // تشغيل الصوت
+        wheel.style.transition = 'transform 10s cubic-bezier(0.33, 1, 0.68, 1)'; // تعيين مدة الدوران
+        wheel.style.transform = `rotate(${randomDegrees}deg)`;
+        
+        hasSpun = true;
 
-            const wheel = document.getElementById('wheel');
-            const randomDegree = Math.floor(Math.random() * 360) + 3600; // تدور 10 دوارات
-            wheel.style.transform = `rotate(${randomDegree}deg)`;
+        // تحديد الجائزة بناءً على النسب
+        setTimeout(() => {
+            const randomNum = Math.random();
+            let prizeMessage = "لا حظ اليوم!";
+            let winnerName = prompt("أدخل اسمك للفوز:");
 
-            setTimeout(() => {
-                const degree = randomDegree % 360;
-                let prize;
+            if (randomNum < 0.90) {
+                prizeMessage = "مبروك حصلت على 1 ريال عماني";
+            } else {
+                prizeMessage = "مبروك حصلت على توصيل مجاني!";
+            }
 
-                // تحديد الجوائز بناءً على الاحتمالات
-                if (degree >= 0 && degree < 45) prize = 'مبروك حصلت على 5 ريال';
-                else if (degree >= 45 && degree < 90) prize = 'مبروك حصلت على 500 بيسه';
-                else if (degree >= 90 && degree < 135) prize = 'مبروك حصلت على 800 بيسه';
-                else if (degree >= 135 && degree < 180) prize = 'مبروك حصلت على 400 بيسه';
-                else if (degree >= 180 && degree < 225) prize = 'مبروك حصلت على توصيل مجاني';
-                else if (degree >= 225 && degree < 270) prize = 'مبروك حصلت على تخفيض 20‎%';
-                else if (degree >= 270 && degree < 315) prize = 'مبروك حصلت على تخفيض 10‎%';
-                else prize = 'مبروك حصلت على تخفيض 40‎%';
-
-                waitingMessage.style.display = 'none'; // إخفاء الرسالة
-                document.getElementById('result').innerText = prize;
-
-                // تسجيل أن المستخدم قد قام بالتصويت
-                localStorage.setItem(spunKey, 'true');
-                document.getElementById('spin').disabled = true; // تعطيل الزر
-                document.getElementById('spin').innerText = 'لقد قمت بالتصويت بالفعل'; // تغيير النص
-            }, 10000); // وقت التوقف بعد 10 ثواني
-        });
-    </script>
+            result.innerHTML = `${winnerName}: ${prizeMessage}`;
+            result.style.display = 'block'; // إظهار النتيجة
+            winnersList.innerHTML += `<li>${winnerName}: ${prizeMessage}</li>`;
+        }, 10000); // إظهار النتيجة بعد 10 ثوانٍ
+    });
+</script>
 
 </body>
 </html>
