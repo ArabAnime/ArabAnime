@@ -142,7 +142,14 @@
     const spinSound = document.getElementById('spinSound');
     const winnersList = document.getElementById('winners');
     const result = document.getElementById('result');
-    let hasSpun = false;
+    
+    // التحقق مما إذا كان المستخدم قد قام بالتدوير مسبقًا
+    let hasSpun = localStorage.getItem('hasSpun') === 'true';
+
+    if (hasSpun) {
+        spinButton.disabled = true; // تعطيل الزر إذا تم التدوير مسبقًا
+        spinButton.textContent = "لقد قمت بالدوران بالفعل!";
+    }
 
     spinButton.addEventListener('click', () => {
         if (hasSpun) {
@@ -156,6 +163,7 @@
         wheel.style.transform = `rotate(${randomDegrees}deg)`;
         
         hasSpun = true;
+        localStorage.setItem('hasSpun', 'true'); // حفظ حالة التدوير
 
         // تحديد الجائزة بناءً على النسب (جميعها 20%)
         setTimeout(() => {
