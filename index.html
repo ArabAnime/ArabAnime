@@ -113,14 +113,14 @@
 
 <div class="wheel" id="wheel">
     <div class="slice">1 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
-    <div class="slice">0 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
+    <div class="slice">1 ر.ع</div>
     <div class="slice">توصيل مجاني!</div>
     <div class="arrow"></div>
 </div>
@@ -157,13 +157,19 @@
         
         hasSpun = true;
 
-        // تحديد الجائزة بناءً على النسب
+        // تحديد الجائزة بناءً على النسب (جميعها 20%)
         setTimeout(() => {
             const randomNum = Math.random();
             let prizeMessage = "لا حظ اليوم!";
             let winnerName = prompt("أدخل اسمك للفوز:");
 
-            if (randomNum < 0.90) {
+            if (randomNum < 0.20) {
+                prizeMessage = "مبروك حصلت على 1 ريال عماني";
+            } else if (randomNum < 0.40) {
+                prizeMessage = "مبروك حصلت على 1 ريال عماني";
+            } else if (randomNum < 0.60) {
+                prizeMessage = "مبروك حصلت على 1 ريال عماني";
+            } else if (randomNum < 0.80) {
                 prizeMessage = "مبروك حصلت على 1 ريال عماني";
             } else {
                 prizeMessage = "مبروك حصلت على توصيل مجاني!";
