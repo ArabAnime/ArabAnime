@@ -9,16 +9,18 @@ app.use(express.static('public'));
 
 app.post('/split', upload.single('video'), (req, res) => {
     const videoPath = req.file.path;
-    const nonCutDuration = parseInt(req.body.nonCutDuration) || 0;
-    const cutDuration = parseInt(req.body.cutDuration) || 0;
+    const cutDuration = parseInt(req.body.cutDuration) || 5; // مدة القطع
+    const nonCutDuration = parseInt(req.body.nonCutDuration) || 5; // مدة عدم القطع
 
+    // مسار ملف الإخراج
     const outputFilePath = `output/output.mp4`;
 
+    // إعداد ffmpeg لتقطيع الفيديو
     ffmpeg(videoPath)
         .outputOptions([
-            `-vf "select='not(mod(n\,${nonCutDuration + cutDuration}))',setpts=N/FRAME_RATE/TB"`,
-            `-ss ${nonCutDuration}`,
-            `-t ${cutDuration}`
+            `-vf "select='not(mod(n\,${cutDuration + nonCutDuration}))',setpts=N/FRAME_RATE/TB"`,
+            `-ss 0`,
+            `-t ${cutDuration + nonCutDuration}`
         ])
         .save(outputFilePath)
         .on('end', () => {
@@ -34,6 +36,7 @@ app.post('/split', upload.single('video'), (req, res) => {
         });
 });
 
+// بدء السيرفر
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
