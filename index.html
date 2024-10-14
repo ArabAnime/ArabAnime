@@ -14,44 +14,46 @@
             padding: 10px;
             width: 100%;
         }
-        video {
-            display: block;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
 
     <h1>AI Video Splitter</h1>
-    <input type="file" id="videoUpload" accept="video/*">
-    <input type="number" id="nonCutDuration" placeholder="Non-Cutting Segment Duration (seconds)">
-    <input type="number" id="cutDuration" placeholder="Cutting Segment Duration (seconds)">
-    <button id="splitButton">Split Video with AI</button>
-
-    <video id="outputVideo" controls style="display:none;"></video>
-    <a id="downloadLink" style="display:none;">Download Split Video</a>
+    <form id="videoForm">
+        <input type="file" id="videoUpload" name="video" accept="video/*" required>
+        <input type="number" id="cutDuration" name="cutDuration" placeholder="Cutting Segment Duration (seconds)" value="5" required>
+        <input type="number" id="nonCutDuration" name="nonCutDuration" placeholder="Non-Cutting Segment Duration (seconds)" value="5" required>
+        <button type="submit">Split Video</button>
+    </form>
 
     <script>
-        document.getElementById('splitButton').addEventListener('click', function() {
-            const videoFile = document.getElementById('videoUpload').files[0];
-            const nonCutDuration = parseInt(document.getElementById('nonCutDuration').value) || 0;
-            const cutDuration = parseInt(document.getElementById('cutDuration').value) || 0;
+        document.getElementById('videoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-            if (!videoFile) {
-                alert('Please upload a video file.');
-                return;
-            }
+            const formData = new FormData(this);
 
-            // Placeholder for video processing
-            const outputVideoURL = URL.createObjectURL(videoFile); // Simulating processed video
-            document.getElementById('outputVideo').src = outputVideoURL;
-            document.getElementById('outputVideo').style.display = 'block';
-            
-            // Create download link
-            document.getElementById('downloadLink').href = outputVideoURL;
-            document.getElementById('downloadLink').download = 'split_video.mp4';
-            document.getElementById('downloadLink').style.display = 'block';
-            document.getElementById('downloadLink').innerText = 'Download Split Video';
+            fetch('/split', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'split_video.mp4';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            });
         });
     </script>
 
