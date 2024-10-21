@@ -1,61 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Video Splitter</title>
+    <title>لعبة الركض والقفز</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            overflow: hidden;
+            background: #87CEEB; /* لون السماء */
         }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
+        #gameCanvas {
+            display: block;
+            margin: auto;
+            background: #228B22; /* لون الأرض */
+            border: 2px solid #000; /* إطار للعبة */
         }
     </style>
 </head>
 <body>
-
-    <h1>AI Video Splitter</h1>
-    <form id="videoForm">
-        <input type="file" id="videoUpload" name="video" accept="video/*" required>
-        <input type="number" id="cutDuration" name="cutDuration" placeholder="Cutting Segment Duration (seconds)" value="5" required>
-        <input type="number" id="nonCutDuration" name="nonCutDuration" placeholder="Non-Cutting Segment Duration (seconds)" value="5" required>
-        <button type="submit">Split Video</button>
-    </form>
-
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
     <script>
-        document.getElementById('videoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-            const formData = new FormData(this);
+        const characterImage = new Image();
+        characterImage.src = 'https://via.placeholder.com/50/FF0000/FFFFFF?text=👤'; // صورة الشخصية
 
-            fetch('/split', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();
+        const character = {
+            x: 50,
+            y: 350,
+            width: 50,
+            height: 50,
+            speed: 5,
+            gravity: 0.5,
+            jumpPower: 10,
+            velocityY: 0,
+            isJumping: false
+        };
+
+        function drawCharacter() {
+            ctx.drawImage(characterImage, character.x, character.y, character.width, character.height);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawCharacter();
+
+            // الجاذبية
+            if (character.isJumping) {
+                character.velocityY += character.gravity;
+                character.y += character.velocityY;
+                if (character.y >= 350) {
+                    character.y = 350;
+                    character.isJumping = false;
+                    character.velocityY = 0;
                 }
-                throw new Error('Network response was not ok.');
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'split_video.mp4';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            })
-            .catch(err => {
-                console.error('Error:', err);
-            });
-        });
-    </script>
+            }
+        }
 
+        function jump() {
+            if (!character.isJumping) {
+                character.velocityY = -character.jumpPower;
+                character.isJumping = true;
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                jump();
+            }
+        });
+
+        characterImage.onload = function() {
+            gameLoop(); // بدء اللعبة بعد تحميل الصورة
+        };
+
+        function gameLoop() {
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
 </body>
 </html>
